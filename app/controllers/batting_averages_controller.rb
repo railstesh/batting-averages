@@ -4,8 +4,8 @@ class BattingAveragesController < ApplicationController
   end
 
   def import_csv_data
-    binding.pry
-    BattingAverage.import()
+    BattingAverage.import(params[:file].path) if params[:file].present?
+    redirect_to root_path
   end
 
   private
@@ -13,7 +13,7 @@ class BattingAveragesController < ApplicationController
   def fetch_averages
     averages = BattingAverage.all
     averages = averages.search_by_player_id(params[:player_id]) if params[:player_id].present?
-    averages = averages.search_by_player_id(params[:year_id]) if params[:year_id].present?
+    averages = averages.search_by_year(params[:year_id]) if params[:year_id].present?
     averages
   end
 end

@@ -1,16 +1,15 @@
-<% unless @batting_averages.present? %>
-  <%= form_tag url: import_csv_data_batting_averages_path, method: :post do %>
-    <div class="form-group">
-      <%= label_tag :file, "Upload CSV File" %>
-      <%= file_field_tag :file, class: 'form-control-file', required: true %>
-    </div>
-    <%= button_tag :submit, "Upload CSV" %>
-  <% end %>
+<% unless average_present? %>
+  <div class="container mt-5">
+    <%= form_tag import_csv_data_batting_averages_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import CSV" %>
+    <% end %>
+  </div>
 <% else %>
   <nav class="navbar navbar-light bg-light">
     <%= form_tag batting_averages_path, class: 'form-inline', method: :get do %>
       <%= text_field_tag 'player_id', params[:player_id], placeholder: "Enter player id", class: 'form-control mr-sm-2' %>
-      <%= select_tag 'Year', options_for_select( @batting_averages.map(&:year_id).uniq), { selected: params[:year_id], prompt: "Year", class: "form-control mr-sm-2" } %>
+      <%= select_tag 'year_id', options_for_select(BattingAverage.fetch_years, params[:year_id]), { prompt: "Year", class: "form-control mr-sm-2" } %>
       <%= submit_tag 'Search!', class: 'btn btn-outline-success my-2 my-sm-0' %>
     <% end %>
   </nav>

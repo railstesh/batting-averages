@@ -5,4 +5,5 @@ Rails.application.routes.draw do
       post :import_csv_data
     end
   end
+  root 'batting_averages#index'
 end
