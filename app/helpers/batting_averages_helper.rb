@@ -1,0 +1,2 @@
+module BattingAveragesHelper
+end

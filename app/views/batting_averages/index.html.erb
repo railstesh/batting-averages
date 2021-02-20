@@ -1,0 +1,36 @@
+<% unless @batting_averages.present? %>
+  <%= form_tag url: import_csv_data_batting_averages_path, method: :post do %>
+    <div class="form-group">
+      <%= label_tag :file, "Upload CSV File" %>
+      <%= file_field_tag :file, class: 'form-control-file', required: true %>
+    </div>
+    <%= button_tag :submit, "Upload CSV" %>
+  <% end %>
+<% else %>
+  <nav class="navbar navbar-light bg-light">
+    <%= form_tag batting_averages_path, class: 'form-inline', method: :get do %>
+      <%= text_field_tag 'player_id', params[:player_id], placeholder: "Enter player id", class: 'form-control mr-sm-2' %>
+      <%= select_tag 'Year', options_for_select( @batting_averages.map(&:year_id).uniq), { selected: params[:year_id], prompt: "Year", class: "form-control mr-sm-2" } %>
+      <%= submit_tag 'Search!', class: 'btn btn-outline-success my-2 my-sm-0' %>
+    <% end %>
+  </nav>
+  <div class="container mt-5">
+    <h1 class="text-center">Batting Averages</h1>
+    <table class="table table-striped text-center">
+      <thead>
+        <td>PlayerID</td>
+        <td>Team name</td>
+        <td>YearID</td>
+        <td>Batting Average </td>
+      </thead>
+      <% @batting_averages.each do |batting_average| %>
+      <tr>
+        <td><%= batting_average.player_id %></td>
+        <td><%= batting_average.team_name %></td>
+        <td><%= batting_average.year_id %></td>
+        <td><%= batting_average.average %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>
