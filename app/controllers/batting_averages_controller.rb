@@ -3,8 +3,10 @@ class BattingAveragesController < ApplicationController
     @batting_averages = fetch_averages
   end
 
+  def new; end
+
   def import_csv_data
-    BattingAverage.import(params[:file].path) if params[:file].present?
+    ImportBattingDataFromCsvJob.perform_later("#{Rails.root}/public/Batting.csv") if params[:file].present?
     redirect_to root_path
   end
 

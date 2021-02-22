@@ -2,7 +2,7 @@ class BattingAverage < ApplicationRecord
   validates :player_id, uniqueness: { scope: :year_id }
 
   default_scope { order(average: :desc) }
-  scope :search_by_player_id, lambda { |player_id| where("player_id LIKE CONCAT('%',?,'%')", player_id) }
+  scope :search_by_player_id, lambda { |player_id| where("player_id LIKE CONCAT('%',?,'%')", player_id&.downcase) }
   scope :search_by_year, lambda { |year| where(year_id: year) }
 
   def self.import(file_path)
@@ -19,7 +19,7 @@ class BattingAverage < ApplicationRecord
   end
 
   def self.calculate_average(h, ab)
-    return 0 if h.eql?(0) || ab.eql?(0)
+    return 0 if h.eql?(0) || ab.eql?(0) || h.nil? || ab.nil?
 
     h / ab
   end

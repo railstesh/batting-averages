@@ -1,10 +1,7 @@
 <% unless average_present? %>
-  <div class="container mt-5">
-    <h2 class="card card-header">Import CSV</h2>
-    <%= form_tag import_csv_data_batting_averages_path, multipart: true, class: 'card card-body' do %>
-      <%= file_field_tag :file, class: 'form-control' %>
-      <%= submit_tag "Import CSV", class: 'btn btn-primary mt-1' %>
-    <% end %>
+  <div class="container m-5">
+    Please upload CSV <%= link_to 'here', new_batting_average_path %> <br>Or
+    Please refresh the page and check after sometime.
   </div>
 <% else %>
   <nav class="navbar navbar-light bg-light">
